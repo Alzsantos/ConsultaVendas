@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jogoteca</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">    
+  </head>
+  <body>
+    <div class="container">
+    
+        <h1>Consulta de Vendas</h1>
+        <form method="POST" action="{{ url_for('consultar') }}">
+            <fieldset>
+                {{ form.csrf_token() }}
+                <div class="form-group">
+                    {{ form.textoConsulta.label(class="form-label") }}
+                    {{ form.textoConsulta(class="form-control") }}                                
+                </div> 
+                <div class="form-group buttons">                
+                    {{ form.consultar(class="btn btn-primary") }}                
+                </div>
+            </fieldset>
+            <div>
+             {{ form.html_resposta.data | safe }}            
+             </div>
+           
+        </form>
+        
+    </div>
+
+  </body>
+</html>  

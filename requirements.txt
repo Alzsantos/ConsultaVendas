@@ -4,3 +4,4 @@ azure-keyvault-secrets==4.8.0
 Flask 
 Flask-WTF==1.2.1
 openai==1.14.2
+pyodbc

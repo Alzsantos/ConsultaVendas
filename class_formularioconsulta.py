@@ -1,4 +1,4 @@
-from consultavenda import app
+from app import app
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField, SubmitField, StringField, validators
 

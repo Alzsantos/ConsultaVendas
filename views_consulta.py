@@ -1,5 +1,5 @@
 from flask import render_template, request, flash, url_for
-from consultavenda import app
+from app import app
 from class_formularioconsulta import FormularioConsulta
 from class_openai import ChatGPT
 from sql_server import executa_consulta_gpt_banco_sqlserver

@@ -18,13 +18,14 @@
                     {{ form.textoConsulta(class="form-control") }}                                
                 </div> 
                 <div class="form-group buttons">                
-                    {{ form.consultar(class="btn btn-primary") }}                
-                </div>
+                    {{ form.consultar(class="btn btn-primary") }}
+                    <a class="btn btn-secondary" onclick="javascript:document.getElementById('divResposta').innerHTML='';">Limpar Resultados</a>
+                    
+                </div>                
             </fieldset>
-            <div>
+            <div id="divResposta">
              {{ form.html_resposta.data | safe }}            
-             </div>
-           
+             </div>           
         </form>
         
     </div>

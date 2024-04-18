@@ -30,7 +30,7 @@ class ChatGPT:
         Tabela tb_produto: Armazena os produtos comercializados pela empresa. Os campos são:
         - id_produto: Chave primária da tabela, este campo é o identificador do produto.
         - descricao: Armazena o nome/descrição do produto.
-        - preco_sugerido: É o preço unitário sugerido para a venda do produto.
+        - preco_sugerido: É o preço unitário sugerido para a venda do produto. Ele não é o preço pelo qual o produto foi efetivamente vendido. O preço pelo qual o produto foi vendido está na tabela tb_detalhe_venda.
         - id_departamento: Este campo se relaciona com o campo id_departamento da tabela tb_departamento. Ele identifica o departamento da empresa responsável pela comercialização do produto.
         
         Tabela tb_venda: Armazena as vendas realizadas pela empresa. Cada venda é um ticket. Uma venda deve ser feita para um cliente. Uma venda pode ter vários detalhes_venda. Mas um detalhe_venda só pode pertencer à uma venda. O valor total do ticket (venda) é a soma da quantidade existente em cada produto do detalhe da venda multiplicado pela quantidade existente em cada detalhe da venda. Seus campos são:
@@ -127,6 +127,7 @@ class ChatGPT:
         self.lista_mensagens.append({"role": "user", "content": "Você respondeu que a instrução sql não estava correta. Qual seria a instrução SQL correta"})        
         self.lista_mensagens.append({"role": "user", "content": "Retorne um json com os seguintes atributos: conseguiu_montar_instrucao_sql (true or false), instrucao_sql e motivo_nao_ter_montado"})
         
+        
         try:
             self.resposta = openai.chat.completions.create(messages=self.lista_mensagens, model="gpt-3.5-turbo")
             resultado = json.loads(self.resposta.choices[0].message.content)            
@@ -159,11 +160,15 @@ class ChatGPT:
         return False
     
     def obter_html_resposta_consulta_banco(self, json_resposta):
+        
+        print(self.instrucao_sql)
        
         self.lista_mensagens.append({"role": "user", "content": "A instrução que você gerou foi executada no SQL Server e o resultado é este json:"})        
         self.lista_mensagens.append({"role": "user", "content": json_resposta})
-        self.lista_mensagens.append({"role": "user", "content": "Gere um html utilizando bootstrap que será colocado dentro de uma div para que esta resposta seja mostrada no sistema"})        
-        self.lista_mensagens.append({"role": "user", "content": "Valores devem estar formatados para a o idioma Portugês-Brasil e as fontes devem ter tamanho pequeno.Não use as tags <h1>, <h2> nem <h3>"})        
+        self.lista_mensagens.append({"role": "user", "content": "Gere um html com todos os registros do json passado utilizando bootstrap que será colocado dentro de uma div para que esta resposta seja mostrada no sistema"})        
+        self.lista_mensagens.append({"role": "user", "content": "O html gerado precisa ter todas as informarções do json de resposta passado."})
+        self.lista_mensagens.append({"role": "user", "content": "Nenhuma informação deve ser omitida no html gerado."})
+        self.lista_mensagens.append({"role": "user", "content": "Valores devem estar formatados para a o idioma Portugês-Brasil e as fontes devem ter tamanho pequeno. Não use as tags <h1>, <h2> nem <h3>. "})                        
         self.lista_mensagens.append({"role": "user", "content": "Retorne um json com os atributos htmldiv e htmlLink"})
         
         try:
